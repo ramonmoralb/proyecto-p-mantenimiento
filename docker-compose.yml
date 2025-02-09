@@ -1,9 +1,12 @@
+
+
 services:
   app:
     build: .
     container_name: pagina-mantenimiento
     volumes:
       - ./app:/var/www/html/app
-      - ./config/prod/virtualhosts/index.prod.chickenkiller.com.conf:/etc/apache2/sites-enabled/index.prod.chickenkiller.com.conf
+      - ./config/prod/virtualhosts/index.prod.chickenkiller.com.conf:/etc/apache2/sites-available/index.prod.chickenkiller.com.conf
     ports:
       - "80:80"
+    restart: always
