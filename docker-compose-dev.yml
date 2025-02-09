@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: pagina-mantenimiento
+    volumes:
+      - ./app:/var/www/html/app
+      - ./config/dev/virtualhosts/index.dev.com.conf:/etc/apache2/sites-enabled/index.dev.com.conf
+    ports:
+      - "8080:80"
