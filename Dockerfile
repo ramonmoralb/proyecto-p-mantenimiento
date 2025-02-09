@@ -1,20 +1,16 @@
-FROM php:apache
+FROM debian:latest
 
 LABEL org.opencontainers.image.authors="ramonmoreno.alu@iespacomolla.es"
 
-# Actualización e instalación en una sola línea para reducir capas
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y nano && \
-    a2enmod rewrite && \
-    rm -rf /var/lib/apt/lists/*
+# Actualiza los repositorios e instala apache2
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install -y apache2 \
+    && apt-get clean
 
-# Exponer el puerto 80
+
+
+# Expón el puerto 80
 EXPOSE 80
 
-# Copiar la configuración de Apache al contenedor y habilitarla
-COPY ./config/prod/virtualhosts/index.prod.chickenkiller.com.conf /etc/apache2/sites-available/
-RUN a2ensite index.prod.chickenkiller.com.conf && \
-    service apache2 restart
-
-# Comando de inicio
-CMD ["apache2-foreground"]
+# Comando para iniciar Apache en primer plano
+CMD ["apache2ctl", "-D", "FOREGROUND"]
